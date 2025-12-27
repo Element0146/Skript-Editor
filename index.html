@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Skript Master IDE v10.2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div style="display:flex; align-items:center; gap:8px;">
+        <img src="favicon.png" id="header-logo" style="width:20px; height:20px; transition: transform 0.5s ease;" alt="logo">
+        <span data-i18n="logo_title">Editor</span>
+    </div>
+    <div style="display:flex; gap:10px;">
+        <button class="w-btn" onclick="copyToClipboard()" data-i18n="btn_copy">KOPYALA</button>
+        <button class="w-btn" onclick="manualSave()" data-i18n="btn_save">KAYDET</button>
+        <button class="w-btn" onclick="openPopup()" data-i18n="btn_font">FONT</button>
+    </div>
+</header>
+
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="favicon.png" alt="Logo" class="splash-logo">
+            <h1 class="splash-title">Skript Editor</h1>
+            <p class="splash-subtitle">Made With AI</p>
+        </div>
+    </div>
+
+    <div class="safe-area">
+        
+        <div class="tabs">
+            <div class="tab active" id="btn-editor" onclick="showTab('editor')" data-i18n="tab_editor">EDİTÖR</div>
+            <div class="tab" id="btn-wiki" onclick="showTab('wiki')" data-i18n="tab_wiki">VİKİ</div>
+            <div class="tab" id="btn-color" onclick="showTab('color')" data-i18n="tab_color">RENKLER</div>
+        </div>
+
+        <div id="editor-page" class="active">
+            <div id="highlight-layer"></div>
+            <textarea id="input-layer" spellcheck="false" placeholder="# Kodlarını Yaz..."></textarea>
+        </div>
+
+        <div id="wiki-page">
+            <div id="wiki-content"></div>
+        </div>
+
+        <div id="color-page">
+            <div class="color-grid" id="color-grid-content"></div>
+        </div>
+    </div>
+
+    <div id="fontPopup" class="popup-overlay">
+        <div class="popup-content">
+            <h3 style="color:white; margin-top:0;" data-i18n="font_popup_title">Font Ayarları</h3>
+            <input type="file" id="fontInput" accept=".ttf,.otf,.woff" style="display:none" onchange="loadFont(this)">
+            <button class="popup-btn" style="background:var(--purple); color:white" onclick="document.getElementById('fontInput').click()" data-i18n="btn_select_font">FONT SEÇ (.TTF)</button>
+            <button class="popup-btn" style="background:#444; color:white" onclick="resetFont()" data-i18n="btn_reset_font">VARSAYILAN</button>
+            <button class="popup-btn" style="background:transparent; color:#666; border:1px solid #333" onclick="closePopup()" data-i18n="btn_close">KAPAT</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

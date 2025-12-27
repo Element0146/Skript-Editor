@@ -1,0 +1,167 @@
+:root {   
+    --bg: #000000;   
+    --header: #0a0a0a;   
+    --text: #e2e2e7;   
+    --accent: #ff79c6;   
+    --card: #111111;   
+    --orange: #ffb86c;   
+    --green: #50fa7b;   
+    --purple: #bd93f9;   
+    --blue: #89ddff;   
+    --yellow: #f1fa8c;   
+    --comment: #6272a4;  
+    --main-font: 'Inter', sans-serif;  
+    --editor-font: 'Fira Code', monospace;  
+}  
+
+body {   
+    margin: 0;   
+    background-color: #000 !important;   
+    height: 100vh;   
+    display: flex;   
+    flex-direction: column;   
+    overflow: hidden;   
+    position: relative;  
+    font-family: var(--main-font);  
+}  
+
+body::before {   
+    content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999;   
+    pointer-events: none; border: 5px solid transparent;  
+    background: linear-gradient(120deg, #bd93f9, #ff79c6) border-box;  
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);  
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);  
+    -webkit-mask-composite: destination-out; mask-composite: exclude;  
+    animation: neon-flow 5s ease infinite alternate;  
+}  
+
+@keyframes neon-flow { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }  
+
+.safe-area {   
+    margin: 10px;   
+    flex-grow: 1;   
+    display: flex;   
+    flex-direction: column;   
+    background-color: #000 !important;   
+    border-radius: 8px;   
+    overflow: hidden;   
+    position: relative;   
+    z-index: 1;   
+}  
+
+header { padding: 12px 15px; background: var(--header); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a1a1a; }  
+header span { font-family: var(--main-font); font-weight: bold; color: white; }  
+
+.tabs { display: flex; background: #000; border-bottom: 1px solid #1a1a1a; }  
+.tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; color: #6272a4; font-weight: bold; font-size: 11px; text-transform: uppercase; transition: 0.3s; }  
+.tab.active { color: var(--accent); border-bottom: 2px solid var(--accent); background: #050505; }  
+
+/* --- YENİLENMİŞ MODERN BUTONLAR (w-btn) --- */
+.w-btn { 
+    position: relative;
+    background: transparent; 
+    color: #fff; 
+    border: none; 
+    padding: 8px 15px; 
+    border-radius: 8px; 
+    font-weight: bold; 
+    font-size: 11px;
+    cursor: pointer; 
+    font-family: var(--main-font);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}  
+
+/* Arka plan renk animasyonu */
+.w-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: conic-gradient(from 0deg, var(--purple), var(--accent), var(--blue), var(--purple));
+    animation: flow-rotate 4s linear infinite;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+}
+
+/* Buton iç maskesi */
+.w-btn::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: #111;
+    border-radius: 6px;
+    z-index: -1;
+    transition: background 0.3s;
+}
+
+.w-btn:hover::after { background: #1a1a1a; }
+
+/* Tıklama efekti */
+.w-btn:active { transform: scale(0.88); }
+.w-btn:active::after { background: #222; }
+
+@keyframes flow-rotate {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* --- EDİTÖR AYARLARI --- */
+#editor-page { flex-grow: 1; position: relative; display: none; background: #000; }  
+#editor-page.active { display: flex; }  
+
+#highlight-layer, #input-layer {  
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; padding: 20px !important;  
+    box-sizing: border-box !important; font-size: 15px !important; line-height: 1.6 !important;  
+    white-space: pre !important; overflow-wrap: normal !important; word-wrap: normal !important;  
+    overflow-x: auto !important; overflow-y: auto !important; tab-size: 4;  
+    font-family: var(--editor-font) !important; background: transparent !important; border: none !important; outline: none !important;  
+}  
+
+#input-layer { color: transparent !important; caret-color: #ffffff; z-index: 2; resize: none; }  
+#highlight-layer { color: #fff; z-index: 1; background-color: #000 !important; pointer-events: none; scrollbar-width: none; }  
+#highlight-layer::-webkit-scrollbar { display: none; }  
+
+/* --- WİKİ & RENK SAYFALARI --- */
+#wiki-page, #color-page { flex-grow: 1; padding: 15px; overflow-y: auto; background-color: #000 !important; display: none; }  
+#wiki-page.active, #color-page.active { display: block; }  
+
+.wiki-category { margin-bottom: 20px; }  
+.category-title { color: var(--orange); font-size: 14px; font-weight: bold; margin-bottom: 10px; border-left: 3px solid var(--orange); padding-left: 8px; }  
+.wiki-item { background: var(--card); padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #1a1a1a; }  
+
+.color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }  
+.color-card { padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; color: #fff; text-shadow: 2px 2px 4px #000; border: 1px solid rgba(255,255,255,0.05); }  
+
+/* --- POPUP SİSTEMİ --- */
+.popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; justify-content: center; align-items: center; }  
+.popup-content { background: #111; padding: 25px; border-radius: 12px; border: 2px solid var(--purple); text-align: center; width: 85%; max-width: 300px; }  
+.popup-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; }  
+
+/* --- SKRIPT RENKLERİ --- */
+.h-mor { color: #bd93f9; font-weight: bold; }  
+.h-sari { color: #f1fa8c; }  
+.h-turuncu { color: #ffb86c; font-weight: bold; }  
+.h-mavi { color: #89ddff; }  
+.h-pembe { color: #ff79c6; }  
+.h-yesil { color: #50fa7b; }  
+.h-string { color: #b9ffb9; font-style: normal; }  
+.h-acikmavi { color: #a1efe4; }  
+.h-acikkirmizi { color: #ff6e6e; font-weight: 900; }  
+.h-yorum { color: #6272a4; font-style: italic; }  
+
+/* --- SPLASH SCREEN --- */
+#splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; justify-content: center; align-items: center; z-index: 99999; transition: opacity 1s ease, visibility 1s; }  
+.splash-content { text-align: center; animation: splash-fade-in 1.5s ease-out forwards; }  
+.splash-logo { width: 80px; height: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--accent)); }  
+.splash-title { color: #fff; font-size: 24px; font-weight: 900; margin: 0; letter-spacing: 2px; }  
+.splash-subtitle { color: var(--accent); font-size: 12px; margin-top: 5px; letter-spacing: 4px; opacity: 0.8; }  
+
+@keyframes splash-fade-in { 0% { opacity: 0; transform: translateY(50px); filter: blur(10px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }  
+.splash-hidden { opacity: 0; visibility: hidden; }
