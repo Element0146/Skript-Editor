@@ -22,3 +22,5 @@ Break the limits! Our editor is fully optimized and works perfectly on both **Mo
 Step into the world of coding and push the boundaries of your server.
 
 > **Pro Tip:** Use the "Color Palette" tab to quickly add visual flair to your messages and items!
+
+> **Warning:** This project was created using AI. Some functions may not work.
