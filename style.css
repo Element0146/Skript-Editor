@@ -159,20 +159,20 @@ header span { font-family: var(--main-font); font-weight: bold; color: white; }
 
 .suggestion-box {
     position: absolute;
-    bottom: 20px; 
-    left: 10px;
-    right: 10px;
+    bottom: 0px; 
+    left: 0px;
+    right: 0px;
     background: #2c2c2e;
-    border: 1px solid #444;
-    border-radius: 8px;
+    border: 2px solid #444;
+    border-radius: 5px;
     list-style: none;
     padding: 0;
     margin: 0;
     display: none;
     z-index: 100;
-    max-height: 150px;
+    max-height: 75px;
     overflow-y: auto;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 -5px 0px rgba(0,0,0,0.3);
 }
 
 .suggestion-box li {
@@ -185,4 +185,4 @@ header span { font-family: var(--main-font); font-weight: bold; color: white; }
 
 .suggestion-box li:active {
     background: #5856d6;
-}
+                }
