@@ -1,9 +1,3 @@
-/**
- * Skript Master IDE - Core Script v10.2
- * Updated: Logo spin, Fixed Title, Color Palette
- */
-
-// --- 1. VERİLER (RENKLER VE FORMATLAR) ---
 const mcColors = [
     { n: "Siyah", c: "&0", hex: "#000000" }, { n: "Koyu Mavi", c: "&1", hex: "#0000AA" },
     { n: "Koyu Yeşil", c: "&2", hex: "#00AA00" }, { n: "Koyu Turkuaz", c: "&3", hex: "#00AAAA" },
@@ -33,7 +27,7 @@ const headerLogo = document.getElementById('header-logo');
 
 const translations = {
     tr: {
-        logo_title: "Editor", // İstediğin gibi Editor olarak sabitlendi
+        logo_title: "Skript Editor",
         btn_copy: "KOPYALA",
         btn_save: "KAYDET",
         btn_font: "FONT",
@@ -53,7 +47,7 @@ const translations = {
         btn_close: "KAPAT"
     },
     en: {
-        logo_title: "Editor",
+        logo_title: "Skript Editor",
         btn_copy: "COPY",
         btn_save: "SAVE",
         btn_font: "FONT",
@@ -77,7 +71,6 @@ const translations = {
 let currentLangData = translations.tr;
 let rotation = 0;
 
-// --- 2. LOGO VE EFEKT SİSTEMİ ---
 function spinLogo() {
     if (headerLogo) {
         rotation += 360;
@@ -99,7 +92,6 @@ function showToast(msg) {
     }, 2000);
 }
 
-// --- 3. DİL VE WIKI/RENK SİSTEMİ ---
 function applyLanguage() {
     let lang = navigator.language.split('-')[0];
     currentLangData = translations[lang] || translations.en;
@@ -146,35 +138,27 @@ function buildColorPalette() {
     grid.innerHTML = html;
 }
 
-// --- 4. EDİTÖR MOTORU (UP) ---
 function up() {
     let v = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     v = v.replace(/(#.*)/g, '<span class="h-yorum">$1</span>');
     v = v.replace(/"(.*?)"/g, m => `<span class="h-string">${m.replace(/&amp;k/g, '&k<span class="magic-text"></span>')}</span>`);
     const rules = [
-    { r: /(on\s+.*?)(?=:)/gi, c: "h-acikkirmizi" }, // Eventler (on join, on death vb.)
-    { r: /(@\w+)/g, c: "h-sari" }, // Ayarlar (@settings)
-    { r: /\b(\d+)\b/g, c: "h-acikmavi" }, // Sayılar
+    { r: /(on\s+.*?)(?=:)/gi, c: "h-acikkirmizi" }, 
+    { r: /(@\w+)/g, c: "h-sari" },
+    { r: /\b(\d+)\b/g, c: "h-acikmavi" }, 
     
-    // KOŞULLAR VE MANTIKSAL İFADELER
     { r: /\b(if|else|or|and|stop|return|wait|exit|cancel\s+event|continue|is|is\s+not|has|contains|exists|is\s+set|is\s+not\s+set)\b/gi, c: "h-mor" },
     
-    // KOMUT SİSTEMİ
     { r: /\b(command|usage|description|permission|permission\s+message|trigger|executable\s+by|aliases|cooldown|cooldown\s+message|cooldown\s+bypass)\b/gi, c: "h-turuncu" },
     
-    // DÖNGÜLER VE TOPLULUKLAR
     { r: /\b(loop|while|for|foreach|all\s+players|all\s+entities|all\s+worlds|loop-player|loop-value|loop-index|loop-entity)\b/gi, c: "h-pembe" },
     
-    // FONKSİYONLAR VE TANIMLAMALAR
     { r: /\b(function|local\s+function|options|variables)\b/gi, c: "h-yesil" },
     
-    // OBJELER VE VERİ KAYNAKLARI
     { r: /\b(player|uuid|victim|attacker|sender|console|message|ip|world|location|event-world|event-location|target\s+player|arg-\d+|arg|argument|metadata|data)\b/gi, c: "h-mavi" },
     
-    // EFEKTLER (Aksiyon Komutları)
     { r: /\b(send|broadcast|message|give|set|add|remove|delete|clear|make|execute|teleport|kick|ban|unban|kill|spawn|open|close|enchant|disenchant|apply|play|create|drop|push|strike|lightning|damage|heal|repair|force|load|unload|stop\s+server)\b/gi, c: "h-acikkirmizi" },
     
-    // DEĞERLER VE ZAMAN BİRİMLERİ
     { r: /\b(true|false|yes|no|none|seconds|minutes|hours|days|ticks|real\s+time|now)\b/gi, c: "h-sari" }
 ];
 
@@ -185,7 +169,6 @@ function up() {
     localStorage.setItem('index.sk', input.value);
 }
 
-// --- 5. ETKİLEŞİMLER ---
 function copyCode(c) {
     spinLogo();
     const s = input.selectionStart;
@@ -220,7 +203,6 @@ function manualSave() {
     showToast(currentLangData.msg_saved);
 }
 
-// --- 6. KLAVYE VE FONT ---
 input.addEventListener('keydown', function(e) {
     spinLogo();
     document.body.classList.add('neon-fast');
@@ -288,7 +270,7 @@ input.addEventListener('scroll', () => {
     highlight.scrollLeft = input.scrollLeft;
 });
 
-// --- 7. BAŞLATICI ---
+
 window.onload = () => {
     applyLanguage(); 
     if(localStorage.getItem('index.sk')) input.value = localStorage.getItem('index.sk');
@@ -311,3 +293,228 @@ window.onload = () => {
         }
     }, 2500);
 };
+
+const staticSnippets = {
+  "on": "on",
+  "join": "join",
+  "quit": "quit",
+  "chat": "chat",
+  "break": "break",
+  "place": "place",
+  "damage": "damage",
+  "kill": "kill",
+  "death": "death",
+  "respawn": "respawn",
+  "click": "click",
+  "drop": "drop",
+  "pickup": "pickup",
+  "if": "if",
+  "else": "else",
+  "while": "while",
+  "for": "for",
+  "foreach": "foreach",
+  "loop": "loop",
+  "command": "command",
+  "usage": "usage",
+  "description": "description",
+  "permission": "permission",
+  "trigger": "trigger",
+  "send": "send",
+  "broadcast": "broadcast",
+  "give": "give",
+  "take": "take",
+  "teleport": "teleport",
+  "heal": "heal",
+  "kick": "kick",
+  "ban": "ban",
+  "unban": "unban",
+  "variables": "variables",
+  "set": "set",
+  "add": "add",
+  "remove": "remove",
+  "delete": "delete",
+  "clear": "clear",
+  "reset": "reset",
+  "function": "function",
+  "local": "local",
+  "true": "true",
+  "false": "false",
+  "is": "is",
+  "not": "not",
+  "has": "has",
+  "contains": "contains",
+  "equals": "equals",
+  "player": "player",
+  "sender": "sender",
+  "victim": "victim",
+  "attacker": "attacker",
+  "uuid": "uuid",
+  "location": "location",
+  "world": "world",
+  "block": "block",
+  "item": "item",
+  "inventory": "inventory",
+  "wait": "wait",
+  "seconds": "seconds",
+  "minutes": "minutes",
+  "hours": "hours",
+  "days": "days",
+  "stop": "stop",
+  "cancel": "cancel",
+  "return": "return",
+  "execute": "execute",
+  "sound": "sound",
+  "message": "message",
+  "title": "title",
+  "actionbar": "actionbar",
+  "permissionmessage": "permissionmessage",
+  "cooldown": "cooldown",
+  "alias": "alias",
+
+  "on join": "on join",
+  "on quit": "on quit",
+  "on chat": "on chat",
+  "on break": "on break",
+  "on place": "on place",
+  "on damage": "on damage",
+  "on death": "on death",
+  "on respawn": "on respawn",
+  "on click": "on click",
+  "on drop": "on drop",
+  "on pickup": "on pickup",
+  "loop players": "loop players",
+  "loop blocks": "loop blocks",
+  "all players": "all players",
+  "all blocks": "all blocks",
+  "open inventory": "open inventory",
+  "close inventory": "close inventory",
+  "play sound": "play sound",
+  "stop sound": "stop sound",
+  "cancel event": "cancel event",
+  "send message": "send message",
+  "broadcast message": "broadcast message",
+  "give item": "give item",
+  "take item": "take item",
+  "teleport player": "teleport player",
+  "heal player": "heal player",
+  "kill player": "kill player",
+  "kick player": "kick player",
+  "ban player": "ban player",
+  "unban player": "unban player",
+  "set variable": "set variable",
+  "add variable": "add variable",
+  "remove variable": "remove variable",
+  "delete variable": "delete variable",
+  "clear variable": "clear variable",
+  "reset variable": "reset variable",
+  "permission check": "permission check",
+  "permission message": "permission message",
+  "command trigger": "command trigger",
+  "command usage": "command usage",
+  "command description": "command description",
+  "world name": "world name",
+  "player name": "player name",
+  "player uuid": "player uuid",
+  "player world": "player world",
+  "block type": "block type",
+  "item type": "item type",
+  "wait seconds": "wait seconds",
+  "wait minutes": "wait minutes",
+  "wait hours": "wait hours",
+
+  "loop all players": "loop all players",
+  "loop all blocks": "loop all blocks",
+  "send action bar": "send action bar",
+  "send title message": "send title message",
+  "play sound player": "play sound player",
+  "stop sound player": "stop sound player",
+  "open player inventory": "open player inventory",
+  "close player inventory": "close player inventory",
+  "teleport all players": "teleport all players",
+  "heal all players": "heal all players",
+  "kill all players": "kill all players",
+  "kick all players": "kick all players",
+  "ban all players": "ban all players",
+  "unban all players": "unban all players",
+  "set player variable": "set player variable",
+  "add player variable": "add player variable",
+  "remove player variable": "remove player variable",
+  "delete player variable": "delete player variable",
+  "clear player variable": "clear player variable",
+  "reset player variable": "reset player variable",
+  "wait some seconds": "wait some seconds",
+  "wait some minutes": "wait some minutes",
+  "wait some hours": "wait some hours",
+  "execute console command": "execute console command",
+  "cancel current event": "cancel current event"
+};
+
+const inputLayer = document.getElementById('input-layer');
+const suggestionList = document.getElementById('suggestion-list');
+
+inputLayer.addEventListener('input', () => {
+    const value = inputLayer.value;
+    const cursorPos = inputLayer.selectionStart;
+    
+    const dynamicMatches = value.match(/\{_.*?\}/g) || [];
+    const uniqueVariables = [...new Set(dynamicMatches)]; 
+
+    const textBeforeCursor = value.substring(0, cursorPos);
+    const lastWord = textBeforeCursor.split(/\s|\n/).pop();
+
+    if (lastWord.length > 0) {
+        let matches = [];
+
+        Object.keys(staticSnippets).forEach(key => {
+            if (key.startsWith(lastWord)) matches.push({display: key, insert: staticSnippets[key]});
+        });
+
+        uniqueVariables.forEach(v => {
+            if (v.startsWith(lastWord) && v !== lastWord) {
+                matches.push({display: v, insert: v});
+            }
+        });
+
+        renderSuggestions(matches, lastWord);
+    } else {
+        suggestionList.style.display = 'none';
+    }
+});
+
+function renderSuggestions(matches, lastWord) {
+    if (matches.length === 0) {
+        suggestionList.style.display = 'none';
+        return;
+    }
+
+    suggestionList.innerHTML = '';
+    matches.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item.display;
+        
+        li.onmousedown = (e) => {
+            e.preventDefault(); 
+            
+            const fullText = inputLayer.value;
+            const cursorPos = inputLayer.selectionStart;
+            
+            const startPos = cursorPos - lastWord.length;
+            
+            const before = fullText.substring(0, startPos);
+            const after = fullText.substring(cursorPos);
+            
+            inputLayer.value = before + item.insert + after;
+            
+            const newCursorPos = startPos + item.insert.length;
+            inputLayer.setSelectionRange(newCursorPos, newCursorPos);
+            
+            suggestionList.style.display = 'none';
+            inputLayer.focus();
+            
+            if(typeof up === "function") up();
+        };
+        suggestionList.appendChild(li);
+    });
+
+    suggestionList.style.display = 'block';
+}
