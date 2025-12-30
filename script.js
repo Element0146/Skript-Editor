@@ -237,6 +237,42 @@ input.addEventListener('input', function(e) {
     up();
 });
 
+function getCaretCoordinates(textarea, position) {
+    const div = document.createElement("div");
+    const style = getComputedStyle(textarea);
+
+    for (const prop of style) {
+        div.style[prop] = style[prop];
+    }
+
+    div.style.position = "absolute";
+    div.style.visibility = "hidden";
+    div.style.whiteSpace = "pre-wrap";
+    div.style.wordWrap = "break-word";
+    div.style.overflow = "hidden";
+    div.style.width = textarea.offsetWidth + "px";
+
+    const text = textarea.value.substring(0, position);
+    div.textContent = text;
+
+    const span = document.createElement("span");
+    span.textContent = textarea.value.substring(position) || ".";
+    div.appendChild(span);
+
+    document.body.appendChild(div);
+
+    const rect = span.getBoundingClientRect();
+    const divRect = div.getBoundingClientRect();
+    const taRect = textarea.getBoundingClientRect();
+
+    document.body.removeChild(div);
+
+    return {
+        top: taRect.top + (rect.top - divRect.top) - textarea.scrollTop,
+        left: taRect.left + (rect.left - divRect.left) - textarea.scrollLeft
+    };
+}
+
 function openPopup() { spinLogo(); fontPopup.style.display = 'flex'; }
 function closePopup() { fontPopup.style.display = 'none'; }
 
@@ -517,4 +553,10 @@ function renderSuggestions(matches, lastWord) {
     });
 
     suggestionList.style.display = 'block';
+    const caret = getCaretCoordinates(inputLayer, inputLayer.selectionStart);
+
+    suggestionList.style.top = caret.top - 60 + "px";
+    suggestionList.style.left = caret.left - 10 + "px";
+    suggestionList.style.right = "auto";
+    suggestionList.style.bottom = "auto";
 }
