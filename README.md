@@ -1,26 +1,39 @@
-# 💎 Skript Editor v10.2
+# 💎 Skript Editor v1.0.2
 
-### 🔰 What Is Skript?
-Skript is a powerful Minecraft plugin that allows players to customize their servers without needing complex Java knowledge. **Skript Master IDE** is specifically designed to let you write and manage your scripts seamlessly, anytime and anywhere!
-
-### 👨‍💻 Cross-Platform Support
-Break the limits! Our editor is fully optimized and works perfectly on both **Mobile** and **PC** platforms.
+### 🔰 What is Skript?
+**Skript** is a powerful Minecraft plugin that allows server owners to create custom mechanics and features without writing complex Java code.  
+**Skript Editor** is built to make writing, editing, and managing Skript files fast, simple, and accessible — wherever you are.
 
 ---
 
-### 🤔 Why Choose This Editor?
-
-* **🗣️ Multilingual Support:** Work in your native language with support for English, Turkish, Russian, and Azerbaijani!
-* **🎨 Smart Syntax Highlighting:** A sophisticated engine that instantly recognizes Skript structures, making your code easier to read and debug.
-* **🔎 Integrated Mini Wiki:** Stuck on a command? Quickly access our built-in reference library for essential Skript syntax.
-* **✏️ Dynamic Font Feature:** Personalize your workspace by uploading your own custom `.ttf` fonts.
-* **👨‍🎨 Minecraft Color Map:** No more memorizing color codes! Easily copy color (`&`) and formatting (`§`) codes with a single click.
+### 🌍 Cross-Platform Experience
+No limits, no compromises.  
+Skript Editor is fully optimized for both **Mobile** and **PC**, delivering a smooth and consistent editing experience on any device.
 
 ---
 
-### 🚀 Try It Now!
-Step into the world of coding and push the boundaries of your server.
+### ✨ Why Skript Editor?
 
-> **Pro Tip:** Use the "Color Palette" tab to quickly add visual flair to your messages and items!
+* **🗣️ Multilingual Interface**  
+  Work comfortably in your own language. Supported languages include **English, Turkish, Russian, and Azerbaijani**.
 
-> **Warning:** This project was created using AI. Some functions may not work.
+* **🎨 Smart Syntax Highlighting**  
+  Instantly recognizes Skript structures, keywords, and patterns to keep your code clean, readable, and error-free.
+
+* **📘 Built-in Mini Wiki**  
+  Quickly look up Skript syntax and references without leaving the editor.
+
+* **✏️ Custom Font Support**  
+  Upload and use your own `.ttf` fonts to fully personalize your coding environment.
+
+* **🎮 Minecraft Color Palette**  
+  Easily copy Minecraft color (`&`) and formatting (`§`) codes with a single click — no memorization needed.
+
+---
+
+### 🚀 Get Started Now
+Turn ideas into reality and take full control of your Minecraft server with confidence.
+
+> **💡 Tip:** Use the **Color Palette** tab to instantly enhance messages, items, and GUIs with rich formatting.
+
+> **⚠️ Notice:** This project was created with the assistance of AI. Some features may be experimental or incomplete.
