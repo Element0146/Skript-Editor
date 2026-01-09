@@ -138,34 +138,63 @@ function buildColorPalette() {
     grid.innerHTML = html;
 }
 
+// (Aşağıdaki `up()` fonksiyonunu mevcut dosyandaki eski `up()` ile değiştir)
 function up() {
-    let v = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    v = v.replace(/(#.*)/g, '<span class="h-yorum">$1</span>');
-    v = v.replace(/"(.*?)"/g, m => `<span class="h-string">${m.replace(/&amp;k/g, '&k<span class="magic-text"></span>')}</span>`);
-    const rules = [
-    { r: /(on\s+.*?)(?=:)/gi, c: "h-acikkirmizi" }, 
-    { r: /(@\w+)/g, c: "h-sari" },
-    { r: /\b(\d+)\b/g, c: "h-acikmavi" }, 
-    
-    { r: /\b(if|else|or|and|stop|return|wait|exit|cancel\s+event|continue|is|is\s+not|has|contains|exists|is\s+set|is\s+not\s+set)\b/gi, c: "h-mor" },
-    
-    { r: /\b(command|usage|description|permission|permission\s+message|trigger|executable\s+by|aliases|cooldown|cooldown\s+message|cooldown\s+bypass)\b/gi, c: "h-turuncu" },
-    
-    { r: /\b(loop|while|for|foreach|all\s+players|all\s+entities|all\s+worlds|loop-player|loop-value|loop-index|loop-entity)\b/gi, c: "h-pembe" },
-    
-    { r: /\b(function|local\s+function|options|variables)\b/gi, c: "h-yesil" },
-    
-    { r: /\b(player|uuid|victim|attacker|sender|console|message|ip|world|location|event-world|event-location|target\s+player|arg-\d+|arg|argument|metadata|data)\b/gi, c: "h-mavi" },
-    
-    { r: /\b(send|broadcast|message|give|set|add|remove|delete|clear|make|execute|teleport|kick|ban|unban|kill|spawn|open|close|enchant|disenchant|apply|play|create|drop|push|strike|lightning|damage|heal|repair|force|load|unload|stop\s+server)\b/gi, c: "h-acikkirmizi" },
-    
-    { r: /\b(true|false|yes|no|none|seconds|minutes|hours|days|ticks|real\s+time|now)\b/gi, c: "h-sari" }
-];
+    // input içeriğini HTML entity'lerine çevir
+    let raw = input.value;
+    let escaped = raw.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-    v = v.replace(/({.*?})/g, '<span class="h-mavi">$1</span>');
-    rules.forEach(rule => { v = v.replace(new RegExp(rule.r.source + "(?![^<]*>)", "gi"), `<span class="${rule.c}">$1</span>`); });
-    if (v.endsWith('\n') || v === '') v += ' ';
-    highlight.innerHTML = v;
+    // string ve yorum ve diğer token'lar için kurallar (mevcut kurallarını korudum)
+    const rules = [
+        { r: /(on\s+.*?)(?=:)/gi, c: "h-acikkirmizi" }, 
+        { r: /(@\w+)/g, c: "h-sari" },
+        { r: /\b(\d+)\b/g, c: "h-acikmavi" }, 
+        { r: /\b(if|else|or|and|stop|return|wait|exit|cancel\s+event|continue|is|is\s+not|has|contains|exists|is\s+set|is\s+not\s+set)\b/gi, c: "h-mor" },
+        { r: /\b(command|usage|description|permission|permission\s+message|trigger|executable\s+by|aliases|cooldown|cooldown\s+message|cooldown\s+bypass)\b/gi, c: "h-turuncu" },
+        { r: /\b(loop|while|for|foreach|all\s+players|all\s+entities|all\s+worlds|loop-player|loop-value|loop-index|loop-entity)\b/gi, c: "h-pembe" },
+        { r: /\b(function|local\s+function|options|variables)\b/gi, c: "h-yesil" },
+        { r: /\b(player|uuid|victim|attacker|sender|console|message|ip|world|location|event-world|event-location|target\s+player|arg-\d+|arg|argument|metadata|data)\b/gi, c: "h-mavi" },
+        { r: /\b(send|broadcast|message|give|set|add|remove|delete|clear|make|execute|teleport|kick|ban|unban|kill|spawn|open|close|enchant|disenchant|apply|play|create|drop|push|strike|lightning|damage|heal|repair|force|load|unload|stop\s+server)\b/gi, c: "h-acikkirmizi" },
+        { r: /\b(true|false|yes|no|none|seconds|minutes|hours|days|ticks|real\s+time|now)\b/gi, c: "h-sari" }
+    ];
+
+    // satır satır işle (böylece satır numarası ekleyebilelim ve her satırı ayrı highlight edebilelim)
+    const lines = escaped.split('\n');
+    const out = lines.map((ln, idx) => {
+        let l = ln;
+
+        // stringleri önce sar (çift tırnak içi)
+        l = l.replace(/"(.*?)"/g, m => `<span class="h-string">${m.replace(/&amp;k/g, '&k<span class="magic-text"></span>')}</span>`);
+
+        // süslü parantez içindekiler
+        l = l.replace(/({.*?})/g, '<span class="h-mavi">$1</span>');
+
+        // diğer kurallar: her eşleşmeyi function replacement ile sarmalıyoruz (bu, $1 gibi hatalara sebep olmaz)
+        rules.forEach(rule => {
+            const regex = new RegExp(rule.r.source + "(?![^<]*>)", "gi");
+            l = l.replace(regex, (match) => `<span class="${rule.c}">${match}</span>`);
+        });
+
+        // yorumları en sona al (satırdaki kalan her şeyi yorum olarak sar)
+        l = l.replace(/(#.*)/g, '<span class="h-yorum">$1</span>');
+
+        // boş satır varsa en az bir boşluk bırak ki yükseklik korunulsun
+        if (l === '') l = ' ';
+
+        // satır numarası + içerik yapısı
+        return `<div class="line"><span class="line-number">${idx + 1} |</span><span class="line-content">${l}</span></div>`;
+    });
+
+    // Eğer input sonu newline ile bitiyorsa editörde bir boş satır görünmesi için ek satır ekle
+    let html = out.join('');
+    if (raw.endsWith('\n')) {
+        const nextIndex = lines.length + 1;
+        html += `<div class="line"><span class="line-number">${nextIndex} |</span><span class="line-content"> </span></div>`;
+    }
+
+    highlight.innerHTML = html;
+
+    // localStorage ve senkronizasyon
     localStorage.setItem('index.sk', input.value);
 }
 
