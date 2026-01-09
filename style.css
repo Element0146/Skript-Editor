@@ -123,6 +123,30 @@ header span { font-family: var(--main-font); font-weight: bold; color: white; }
 #highlight-layer { color: #fff; z-index: 1; background-color: #000 !important; pointer-events: none; scrollbar-width: none; }  
 #highlight-layer::-webkit-scrollbar { display: none; }  
 
+/* Satır numarası ve line layout */
+#highlight-layer .line { display: flex; align-items: flex-start; }
+#highlight-layer .line-number {
+  display: inline-block;
+  width: 3.4em;
+  text-align: right;
+  padding-right: 10px;
+  color: var(--comment);
+  opacity: 0.8;
+  user-select: none;
+  font-family: var(--editor-font);
+  font-size: inherit;
+}
+#highlight-layer .line-content {
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--editor-font);
+  font-size: inherit;
+}
+#highlight-layer { white-space: pre-wrap; word-wrap: break-word; }
+/* İsteğe bağlı: highlight ile textarea aynı font/line-height kullanılarak hizalanmaya çalışılır */
+#highlight-layer, #input-layer { font-family: var(--editor-font); line-height: 1.45; }
+
 #wiki-page, #color-page { flex-grow: 1; padding: 15px; overflow-y: auto; background-color: #000 !important; display: none; }  
 #wiki-page.active, #color-page.active { display: block; }  
 
